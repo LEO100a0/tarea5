@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Virtual</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* Barra azul decorativa en la parte superior */
+        .barra-azul {
+            background-color: #177ABA;
+            height: 40px;
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .barra-azul a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0 10px;
+        }
+
+        /* Contenedor para el logo y los iconos */
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .logo-container img {
+            max-width: 230px;
+            height: auto;
+        }
+
+        .iconos-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* CONTENEDOR DE NAVEGACIÓN CORREGIDO */
+        .contenedor-nav {
+            background-color: #f0f0f0;
+            padding: 10px;
+            display: flex;
+            margin-top: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            justify-content: center;
+        }
+
+        /* Barra de navegación */
+        .navbar {
+            width: auto;
+            max-width: 100%;
+        }
+
+        .navbar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0 10px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: nowrap;
+            width: max-content;
+        }
+
+        .navbar ul li {
+            white-space: nowrap;
+        }
+
+        .navbar ul li a {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 5px 10px;
+            display: inline-block;
+        }
+
+        .navbar ul li a:hover {
+            color: #177ABA;
+        }
+
+        /* Contenido principal */
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Sección de productos (visible por defecto) */
+        #productos-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 40px;
+            justify-content: center;
+        }
+
+        /* Sección de contacto (oculta por defecto) */
+        #contacto-section {
+            display: none;
+            width: 100%;
+            max-width: 1100px;
+            margin: auto;
+            margin-top: 90px;
+        }
+
+        /* Sección de mapa (oculta por defecto) */
+        #ubicanos-section {
+            display: none;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        /* Sección de torneo (oculta por defecto) */
+        #torneo-section {
+            display: none;
+            width: 90%;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 15px;
+        }
+
+        /* Sección de juego (oculta por defecto) - MODIFICADO */
+        #game-section {
+            display: none;
+            width: 100%;
+            max-width: 100%;
+            margin: 20px auto;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        /* Sección About (oculta por defecto) */
+        #about-section {
+            display: none;
+            padding: 20px;
+            background-color: white;
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+
+        .producto {
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: calc(25% - 20px);
+            box-sizing: border-box;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Estilos para las imágenes de los productos */
+        .producto img {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        /* Estilos del formulario de contacto */
+        .container-form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 50px;
+        }
+
+        .container-form h2 {
+            margin-bottom: 15px;
+            font-size: 35px;
+        }
+
+        .container-form p {
+            font-size: 17px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .container-form a {
+            font-size: 17px;
+            display: inline-block;
+            text-decoration: none;
+            width: 100%;
+            margin-bottom: 15px;
+            color: black;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .container-form a i {
+            color: #177ABA;
+            margin-right: 15px;
+            font-size: 1.5rem;
+            width: 30px;
+            text-align: center;
+        }
+
+        .container-form form .campo, textarea {
+            width: 100%;
+            padding: 15px 10px;
+            font-size: 16px;
+            border: 1px solid #dbdbdb;
+            margin-bottom: 20px;
+            border-radius: 3px;
+            outline: 0px;
+        }
+
+        .container-form form textarea {
+            max-width: 530px;
+            min-width: 530px;
+            min-height: 140px;
+            max-height: 150px;
+        }
+
+        .container-form .btn-enviar {
+            padding: 15px;
+            font-size: 16px;
+            border: none;
+            outline: 0px;
+            background: orange;
+            color: white;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 300ms ease;
+        }
+
+        .container-form .btn-enviar:hover {
+            background: #e39403;
+        }
+
+        /* Estilos para el mapa */
+        .mapa-container h2 {
+            font-size: 35px;
+            margin-bottom: 20px;
+            color: #177ABA;
+        }
+
+        .mapa-container iframe {
+            width: 100%;
+            max-width: 1100px;
+            height: 450px;
+            border: 0;
+            border-radius: 10px;
+        }
+
+        /* Estilos para la sección de torneo */
+        .section-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #0A192F;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border: 2px solid #177ABA;
+            border-radius: 4px;
+            box-sizing: border-box;
+            box-shadow: 0 0 10px rgba(23, 122, 186, 0.5);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #172A45;
+        }
+
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus {
+            outline: none;
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+        }
+
+        #formInscripcion button {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        #formInscripcion button:hover {
+            background-color: #4cae4c;
+        }
+
+        /* Estilos para la sección About */
+        #about-section {
+            padding: 20px;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #0A192F;
+            font-size: 2em;
+        }
+        
+        .centered-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .centered-content p {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        /* Footer con fondo azul */
+        footer {
+            background-color: #177ABA;
+            color: #fff;
+            text-align: center;
+            padding: 10px 20px;
+            margin-top: 20px;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        footer ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* Estilos responsivos */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: center;
+                padding: 10px 15px;
+            }
+
+            .logo-container img {
+                max-width: 180px;
+            }
+
+            .iconos-container {
+                gap: 10px;
+                margin-top: 15px;
+            }
+
+            /* BARRA DE NAVEGACIÓN RESPONSIVE CORREGIDA */
+            .contenedor-nav {
+                padding: 10px 5px;
+                justify-content: flex-start;
+            }
+
+            .navbar ul {
+                justify-content: flex-start;
+                padding: 0 15px;
+            }
+
+            .navbar ul li a {
+                font-size: 12px;
+                padding: 5px 8px;
+            }
+
+            .producto {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .container-form {
+                grid-template-columns: 1fr;
+            }
+
+            .container-form form textarea {
+                max-width: 100%;
+                min-width: 100%;
+            }
+
+            .form-container {
+                max-width: 90%;
+                padding: 15px;
+            }
+
+            /* Responsive para About */
+            .section-title {
+                font-size: 1.7em;
+            }
+            
+            .centered-content p {
+                font-size: 1em;
+                padding: 0 15px;
+            }
+
+            /* Ajuste para el mapa */
+            .mapa-container iframe {
+                height: 300px;
+            }
+
+            /* Ajuste para la barra azul */
+            .barra-azul a {
+                font-size: 14px;
+                white-space: normal;
+                text-align: center;
+            }
+
+            /* AJUSTES ESPECÍFICOS PARA LA SECCIÓN DEL JUEGO */
+            #productos-section #game-section {
+                display: none !important;
+            }
+            
+            #game-section {
+                padding: 10px;
+                width: 100%;
+                overflow: hidden;
+                display: none; /* Se mostrará solo al hacer clic en el enlace Game */
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            #gameArea {
+                width: 100%;
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+                height: 50vh;
+            }
+            
+            .game-container {
+                padding: 0;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .game-header {
+                width: 93%; /* Reducido en un 7% */
+                max-width: 93%; /* Reducido en un 7% */
+                margin: 0 auto 10px;
+            }
+
+            .instructions {
+                width: 93%; /* Reducido en un 7% */
+                margin-top: 15px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .producto {
+                width: calc(25% - 20px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                max-width: 95%;
+                padding: 10px;
+            }
+            
+            #formInscripcion button {
+                padding: 12px 15px;
+            }
+
+            /* Responsive para About */
+            .section-title {
+                font-size: 1.5em;
+            }
+            
+            .centered-content {
+                text-align: left;
+                padding: 0 10px;
+            }
+            
+            .centered-content p {
+                font-size: 0.95em;
+            }
+
+            .navbar ul li a {
+                font-size: 11px;
+                padding: 5px;
+            }
+
+            .contenedor-nav {
+                padding: 10px;
+            }
+
+            /* Ajuste adicional para el formulario de contacto */
+            .container-form {
+                padding: 10px;
+            }
+
+            /* AJUSTES MÁS FINOS PARA PANTALLAS PEQUEÑAS */
+            #gameArea {
+                width: 100%;
+                height: 45vh;
+            }
+            
+            .game-header {
+                width: 93%; /* Reducido en un 7% */
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .instructions {
+                width: 93%; /* Reducido en un 7% */
+            }
+        }
+
+        /* Estilos para el juego */
+        :root {
+            --primary-color: #2b9348;
+            --secondary-color: #d90429;
+            --accent-color: #83c5be;
+            --trash-color: #6a4c93;
+            --game-bg: #e9ecef;
+            --text-dark: #212529;
+            --text-light: #f8f9fa;
+            --joystick-size: 100px;
+            --joystick-knob-size: 40px;
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            max-width: 100%;
+            position: relative;
+            margin: 0 auto;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        /* NUEVO ESTILO PARA EL HEADER DEL JUEGO (MEJORADO) */
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stats {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 80px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+        }
+
+        #startBtn {
+            padding: 0.6rem 1.5rem;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+
+        #gameArea {
+            width: 100%;
+            max-width: 100%;
+            height: 60vh;
+            min-height: 300px;
+            border-radius: 15px;
+            background-color: var(--game-bg);
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+            border: 3px solid var(--primary-color);
+            background-image: url('https://img.freepik.com/vector-gratis/fondo-acuarela-abstracta-verde_23-2149120778.jpg');
+            background-size: cover;
+            margin: 0 auto;
+        }
+
+        #player {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            position: absolute;
+            border-radius: 50%;
+            transition: transform 0.1s ease-out;
+            box-shadow: 0 0 10px rgba(43, 147, 72, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        #player::after {
+            content: '🧑‍🎓';
+            font-size: 24px;
+        }
+
+        .trash {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            animation: pulse 1.5s infinite alternate;
+            z-index: 5;
+            font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+        }
+
+        @keyframes pulse {
+            from {
+                transform: scale(0.95);
+            }
+            to {
+                transform: scale(1.05);
+            }
+        }
+
+        .game-btn {
+            padding: 0.8rem 1.2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            background-color: var(--secondary-color);
+        }
+
+        .game-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .instructions {
+            background-color: white;
+            padding: 1.2rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .instructions h2 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .instructions p {
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            opacity: 0;
+            animation: float-up 1s ease-out forwards;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        .game-over {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            z-index: 20;
+            display: none;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        /* Joystick Virtual */
+        .joystick-container {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: var(--joystick-size);
+            height: var(--joystick-size);
+            display: none;
+            z-index: 15;
+        }
+
+        .joystick-base {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            position: relative;
+            border: 2px solid rgba(0, 0, 0, 0.2);
+        }
+
+        .joystick-knob {
+            width: var(--joystick-knob-size);
+            height: var(--joystick-knob-size);
+            background-color: rgba(43, 147, 72, 0.7);
+            border-radius: 50%;
+            position: absolute;
+            top: calc(50% - var(--joystick-knob-size) / 2);
+            left: calc(50% - var(--joystick-knob-size) / 2);
+            touch-action: none;
+            border: 2px solid rgba(0, 0, 0, 0.3);
+        }
+
+        .key-instructions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .key {
+            background-color: #e9ecef;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Detección de móvil */
+        @media (hover: none) and (pointer: coarse) {
+            .joystick-container {
+                display: block;
+            }
+            
+            .key-instructions {
+                display: none;
+            }
+        }
+
+        /* Nuevos estilos para el modal y validaciones */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .close-modal {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close-modal:hover {
+            color: black;
+        }
+        
+        .error-message {
+            color: #d90429;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .input-error {
+            border-color: #d90429 !important;
+        }
+        
+        .success-message {
+            color: #2b9348;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .modal-details {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                margin: 30% auto;
+                width: 90%;
+            }
+        }
+    </style>
+    <!--Icon-Font-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Barra azul decorativa en la parte superior -->
+    <div class="barra-azul">
+        <a href="#" id="barra-azul-link">Visita nuestra tienda: Av. La Paz 138, Miraflores - Lima</a>
+    </div>
+
+    <!-- Contenedor para el logo y los iconos -->
+    <div class="header-content">
+        <!-- Logo -->
+        <div class="logo-container">
+            <img src="logotoys.png" alt="Logo de la tienda">
+        </div>
+
+        <!-- Iconos -->
+        <div class="iconos-container">
+            <!-- Se han eliminado los iconos 1, 2, 3 y 4 -->
+        </div>
+    </div>
+
+    <!-- Contenedor para la barra de navegación - AHORA CORREGIDO -->
+    <div class="contenedor-nav">
+        <!-- Barra de navegación centrada -->
+        <div class="navbar">
+            <ul>
+                <li><a href="#" id="catalogo-link">Catálogo</a></li>
+                <li><a href="#" id="ubicanos-link">Ubícanos</a></li>
+                <li><a href="#" id="contacto-link">Contacto</a></li>
+                <li><a href="#" id="torneo-link">Torneo</a></li>
+                <li><a href="#" id="game-link">Game</a></li>
+                <li><a href="#" id="about-link">About</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <main>
+        <!-- Sección de productos (visible por defecto) -->
+        <section id="productos-section" class="productos">
+            <!-- Producto 1 -->
+            <div class="producto">
+                <img src="tanjiro.png" alt="Producto 1">
+                <h2>Demon Slayer-Tanjiro</h2>
+                <p>Precio: S/230</p>
+                <button onclick="agregarAlCarrito('Producto 1', 20)">Agregar al carrito</button>
+            </div>
+            <!-- Producto 2 -->
+            <div class="producto">
+                <img src="luffy.png" alt="Producto 2">
+                <h2>One Piece-Luffy</h2>
+                <p>Precio: S/350</p>
+                <button onclick="agregarAlCarrito('Producto 2', 30)">Agregar al carrito</button>
+            </div>
+            <!-- Producto 3 -->
+            <div class="producto">
+                <img src="rensuke.png" alt="Producto 3">
+                <h2>Blue lock-Rensuke</h2>
+                <p>Precio: S/200</p>
+                <button onclick="agregarAlCarrito('Producto 3', 40)">Agregar al carrito</button>
+            </div>
+            <!-- Producto 4 -->
+            <div class="producto">
+                <img src="naruto.png" alt="Producto 4">
+                <h2>Naruto-Uzumaki</h2>
+                <p>Precio: S/400</p>
+                <button onclick="agregarAlCarrito('Producto 4', 50)">Agregar al carrito</button>
+            </div>
+            <!-- Producto 5 -->
+            <div class="producto">
+                <img src="ace.png" alt="Producto 5">
+                <h2>One Piece-Ace</h2>
+                <p>Precio: S/350</p>
+                <button onclick="agregarAlCarrito('Producto 5', 60)">Agregar al carrito</button>
+            </div>
+            <!-- Producto 6 -->
+            <div class="producto">
+                <img src="chopper.png" alt="Producto 6">
+                <h2>One Piece-Chopper</h2>
+                <p>Precio: S/200</p>
+                <button onclick="agregarAlCarrito('Producto 6', 70)">Agregar al carrito</button>
+            </div>
+            <!-- Producto 7 -->
+            <div class="producto">
+                <img src="bills.png" alt="Producto 7">
+                <h2>One Piece-Bills</h2>
+                <p>Precio: S/400</p>
+                <button onclick="agregarAlCarrito('Producto 7', 80)">Agregar al carrito</button>
+            </div>
+            <!-- Producto 8 -->
+            <div class="producto">
+                <img src="sasuke.png" alt="Producto 8">
+                <h2>Naruto-Sasuke</h2>
+                <p>Precio: S/230</p>
+                <button onclick="agregarAlCarrito('Producto 8', 90)">Agregar al carrito</button>
+            </div>
+            <!-- Producto 9 -->
+            <div class="producto">
+                <img src="rock lee.png" alt="Producto 9">
+                <h2>Naruto-Rock Lee</h2>
+                <p>Precio: S/350</p>
+                <button onclick="agregarAlCarrito('Producto 9', 100)">Agregar al carrito</button>
+            </div>
+            <!-- Producto 10 -->
+            <div class="producto">
+                <img src="franky.png" alt="Producto 10">
+                <h2>One Piece-Franky</h2>
+                <p>Precio: S/400</p>
+                <button onclick="agregarAlCarrito('Producto 10', 110)">Agregar al carrito</button>
+            </div>
+        </section>
+
+        <!-- Sección de contacto (oculta por defecto) -->
+        <div id="contacto-section">
+            <div class="container-form">
+                <div class="info-form">
+                    <h2>Contáctanos</h2>
+                    <p>En Toys Master, estamos comprometidos con brindarte la mejor experiencia de compra. Si tienes alguna pregunta, sugerencia o necesitas asistencia, no dudes en contactarnos. ¡Estamos aquí para ayudarte!.</p>
+                    <a href="#"><i class="fas fa-phone-alt"></i> 987-654-321</a>
+                    <a href="#"><i class="fas fa-envelope"></i> info@toysmaster.com</a>
+                    <a href="#"><i class="fas fa-map-marker-alt"></i> Perú, Lima</a>
+                </div>
+                <form action="#" autocomplete="off">
+                    <input type="text" name="nombre" placeholder="Tu Nombre" class="campo">
+                    <input type="email" name="email" placeholder="Tu Email" class="campo">
+                    <textarea name="mensaje" placeholder="Tu Mensaje..."></textarea>
+                    <input type="submit" name="enviar" value="Enviar Mensaje" class="btn-enviar">
+                </form>
+            </div>
+        </div>
+
+        <!-- Sección del mapa (oculta por defecto) -->
+        <div id="ubicanos-section" class="mapa-container">
+            <h2>Ubícanos</h2>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3900.891848806518!2d-77.0268054!3d-12.1195518!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c81a29a28043%3A0x46ba2d9c7071cb60!2sToys%20Master%20-%20Jugueter%C3%ADa%20Miraflores%2C%20Lima!5e0!3m2!1ses!2spe!4v1742744048178!5m2!1ses!2spe" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+        <!-- Sección de Torneo/Inscripción (oculta por defecto) -->
+        <section id="torneo-section">
+            <h2 class="section-title">Inscripción al Torneo</h2>
+            <div class="form-container">
+                <form id="formInscripcion">
+                    <div class="form-group">
+                        <label for="selectTorneo">Selecciona Torneo:</label>
+                        <select id="selectTorneo" name="torneo" required>
+                            <option value="">-- Selecciona --</option>
+                            <option value="lol" data-precio="50">League of Legends - S/50</option>
+                            <option value="fortnite" data-precio="60">Fortnite - S/60</option>
+                            <option value="valorant" data-precio="70">Valorant - S/70</option>
+                        </select>
+                        <div id="torneo-error" class="error-message">Debes seleccionar un torneo</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="correo">Correo:</label>
+                        <input type="email" id="correo" name="correo" required>
+                        <div id="correo-error" class="error-message">Ingresa un correo válido</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nombre">Nombre Completo:</label>
+                        <input type="text" id="nombre" name="nombre" required>
+                        <div id="nombre-error" class="error-message">Ingresa tu nombre completo</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+                        <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+                        <div id="edad-error" class="error-message">Debes tener al menos 14 años para inscribirte</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pago">Monto de Pago (S/):</label>
+                        <input type="number" id="pago" name="pago" min="0" step="0.01" required>
+                        <div id="pago-error" class="error-message">El monto ingresado es insuficiente</div>
+                    </div>
+                    
+                    <button type="submit">Inscribirse</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Sección de Juego (oculta por defecto) -->
+        <section id="game-section">
+            <h1>Garbage Collector</h1>
+            
+            <div class="game-container">
+                <!-- NUEVO HEADER MEJORADO -->
+                <div class="game-header">
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="stat-label">Basura</div>
+                            <div class="stat-value" id="score">0/10</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Tiempo</div>
+                            <div class="stat-value" id="timer">60s</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Nivel</div>
+                            <div class="stat-value" id="level">1</div>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <button id="startBtn" class="game-btn">Comenzar</button>
+                    </div>
+                </div>
+                
+                <div id="gameArea">
+                    <div class="joystick-container">
+                        <div class="joystick-base">
+                            <div class="joystick-knob" id="joystickKnob"></div>
+                        </div>
+                    </div>
+                    <div class="particles" id="particles"></div>
+                    <div id="player"></div>
+                    <div class="game-over" id="gameOver">
+                        <div id="resultMessage"></div>
+                        <button id="restartBtn" class="game-btn">Jugar de nuevo</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h2>La Misión del Estudiante</h2>
+                <p>Un estudiante ha ingresado a la facultad y ha identificado que otros estudiantes han dejado basura en el campus.</p>
+                <p>¡Tu reto es recolectar la basura requerida en 60 segundos para pasar al siguiente nivel!</p>
+                <p>Cada nivel requiere recolectar 5 piezas más que el anterior.</p>
+                
+                <div class="key-instructions">
+                    <div class="key">↑</div>
+                    <div class="key">↓</div>
+                    <div class="key">←</div>
+                    <div class="key">→</div>
+                    <span>Usa las flechas para moverte</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección About (oculta por defecto) -->
+        <section id="about-section">
+            <h2 class="section-title">Acerca de Nosotros</h2>
+            <div class="centered-content">
+                <p>En Toys Master, somos una empresa dedicada a la organización de torneos en Perú de videojuegos en línea, con un enfoque en ofrecer experiencias emocionantes, profesionales y accesibles para jugadores de todo el mundo. Nuestra misión es crear un entorno competitivo donde la habilidad, la estrategia y la diversión se encuentren, promoviendo la cultura de los esports.</p>
+                <p>Acompáñanos en el viaje de crear momentos inolvidables y transformar el mundo de los esports. ¡Te esperamos en el circuito!</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal para mostrar resultados de validación -->
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 id="modal-title">Resultado de Inscripción</h3>
+            <div id="modal-message"></div>
+            <div id="modal-details" class="modal-details"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Toys Master. Todos los derechos reservados.</p>
+        <ul>
+            <li><a href="#">Términos y condiciones</a></li>
+            <li><a href="#">Política de privacidad</a></li>
+        </ul>
+    </footer>
+
+    <script src="javascript.js"></script>
+</body>
+</html>
